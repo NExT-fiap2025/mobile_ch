@@ -112,28 +112,35 @@ export interface Notification {
 }
 
 // Simulate network latency
-const simulateLatency = () => new Promise(resolve => setTimeout(resolve, 300));
+const simulateLatency = () =>
+  new Promise((resolve) => setTimeout(resolve, 300));
 
 class DataService {
   // Authentication
   async getUser(email: string, password: string): Promise<User | null> {
     await simulateLatency();
-    
-    const user = usersData.find(u => u.email === email && u.password === password);
+
+    const user = usersData.find(
+      (u) => u.email === email && u.password === password,
+    );
     return user || null;
   }
 
-  async createUser(email: string, password: string, name: string): Promise<User> {
+  async createUser(
+    email: string,
+    password: string,
+    name: string,
+  ): Promise<User> {
     await simulateLatency();
-    
+
     const newUser: User = {
       id: `user-${Date.now()}`,
       email,
       password,
       name,
-      token: `token-${Date.now()}`
+      token: `token-${Date.now()}`,
     };
-    
+
     // In a real app, this would be saved to the backend
     return newUser;
   }
@@ -141,70 +148,72 @@ class DataService {
   // Profile
   async getProfile(userId: string): Promise<Profile | null> {
     await simulateLatency();
-    
-    const profile = profilesData.find(p => p.userId === userId);
+
+    const profile = profilesData.find((p) => p.userId === userId);
     return profile || null;
   }
 
-  async updateProfile(userId: string, profileData: Partial<Profile>): Promise<Profile> {
+  async updateProfile(
+    userId: string,
+    profileData: Partial<Profile>,
+  ): Promise<Profile> {
     await simulateLatency();
-    
+
     // Mock update - in real app, this would update the backend
-    const existingProfile = profilesData.find(p => p.userId === userId);
+    const existingProfile = profilesData.find((p) => p.userId === userId);
     const updatedProfile = { ...existingProfile, ...profileData } as Profile;
-    
+
     return updatedProfile;
   }
 
   // Recommendations
   async getRecommendations(userId: string): Promise<Portfolio[]> {
     await simulateLatency();
-    
-    const recommendation = recommendationsData.find(r => r.userId === userId);
-    return recommendation?.portfolios || [];
+    const recommendation = recommendationsData.find((r) => r.userId === userId);
+    return (recommendation?.portfolios ?? []) as Portfolio[];
   }
 
   // Portfolio
   async getPortfolio(userId: string): Promise<UserPortfolio | null> {
     await simulateLatency();
-    
-    const portfolio = portfolioData.find(p => p.userId === userId);
+
+    const portfolio = portfolioData.find((p) => p.userId === userId);
     return portfolio || null;
   }
 
   async acceptPortfolio(userId: string, portfolioId: string): Promise<boolean> {
     await simulateLatency();
-    
+
     // Store the accepted portfolio locally
     await AsyncStorage.setItem(
       `user_portfolio_${userId}`,
       JSON.stringify({
         selectedPortfolioId: portfolioId,
-        acceptedAt: new Date().toISOString()
-      })
+        acceptedAt: new Date().toISOString(),
+      }),
     );
-    
+
     return true;
   }
 
   // Gamification
   async getGamification(userId: string): Promise<Gamification | null> {
     await simulateLatency();
-    
-    const gamification = gamificationData.find(g => g.userId === userId);
+
+    const gamification = gamificationData.find((g) => g.userId === userId);
     return gamification || null;
   }
 
   // Notifications
   async getNotifications(userId: string): Promise<Notification[]> {
     await simulateLatency();
-    
-    return notificationsData.filter(n => n.userId === userId);
+
+    return notificationsData.filter((n) => n.userId === userId);
   }
 
   async markNotificationAsRead(notificationId: string): Promise<boolean> {
     await simulateLatency();
-    
+
     // Mock implementation - would update backend in real app
     return true;
   }

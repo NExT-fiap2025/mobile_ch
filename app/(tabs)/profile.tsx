@@ -7,9 +7,11 @@ import {
   TouchableOpacity,
   Alert,
   Switch,
+  Platform,
 } from 'react-native';
+import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { User, Settings, LogOut, Moon, Sun, Bell } from 'lucide-react-native';
+import { User, Settings, Moon, Sun, Bell } from 'lucide-react-native';
 import { useAuth } from '@/src/context/AuthContext';
 import { Card } from '@/src/components/Card';
 import { Button } from '@/src/components/Button';
@@ -29,7 +31,6 @@ export default function ProfileScreen() {
 
   const loadProfile = async () => {
     if (!user) return;
-
     try {
       const profileData = await DataService.getProfile(user.id);
       setProfile(profileData);
@@ -39,18 +40,23 @@ export default function ProfileScreen() {
   };
 
   const handleLogout = () => {
-    Alert.alert(
-      'Sair',
-      'Tem certeza que deseja sair da sua conta?',
-      [
+    if (Platform.OS === 'web') {
+      if (window.confirm('Tem certeza que deseja sair da sua conta?')) {
+        logout().then(() => router.replace('/auth'));
+      }
+    } else {
+      Alert.alert('Sair', 'Tem certeza que deseja sair da sua conta?', [
         { text: 'Cancelar', style: 'cancel' },
-        { 
-          text: 'Sair', 
+        {
+          text: 'Sair',
           style: 'destructive',
-          onPress: logout
+          onPress: async () => {
+            await logout();
+            router.replace('/auth');
+          },
         },
-      ]
-    );
+      ]);
+    }
   };
 
   const getRiskLevelColor = (riskProfile: string) => {
@@ -67,7 +73,9 @@ export default function ProfileScreen() {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {/* Header */}
         <View style={styles.header}>
@@ -82,14 +90,21 @@ export default function ProfileScreen() {
         {/* User Info */}
         <Card style={styles.userCard}>
           <View style={styles.userInfo}>
-            <View style={[styles.avatar, { backgroundColor: theme.colors.primary }]}>
+            <View
+              style={[styles.avatar, { backgroundColor: theme.colors.primary }]}
+            >
               <User size={32} color="#FFFFFF" />
             </View>
             <View style={styles.userDetails}>
               <Text style={[styles.userName, { color: theme.colors.text }]}>
                 {user?.name}
               </Text>
-              <Text style={[styles.userEmail, { color: theme.colors.textSecondary }]}>
+              <Text
+                style={[
+                  styles.userEmail,
+                  { color: theme.colors.textSecondary },
+                ]}
+              >
                 {user?.email}
               </Text>
             </View>
@@ -102,98 +117,137 @@ export default function ProfileScreen() {
             <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>
               Perfil de Investimento
             </Text>
-            
+            {/* risk, experience, horizon, income, investments */}
             <View style={styles.profileItem}>
-              <Text style={[styles.profileLabel, { color: theme.colors.textSecondary }]}>
+              <Text
+                style={[
+                  styles.profileLabel,
+                  { color: theme.colors.textSecondary },
+                ]}
+              >
                 Perfil de Risco
               </Text>
               <View style={styles.profileValueContainer}>
-                <View 
+                <View
                   style={[
-                    styles.riskIndicator, 
-                    { backgroundColor: getRiskLevelColor(profile.suitability.riskProfile) }
-                  ]} 
+                    styles.riskIndicator,
+                    {
+                      backgroundColor: getRiskLevelColor(
+                        profile.suitability.riskProfile,
+                      ),
+                    },
+                  ]}
                 />
-                <Text style={[styles.profileValue, { color: theme.colors.text }]}>
+                <Text
+                  style={[styles.profileValue, { color: theme.colors.text }]}
+                >
                   {profile.suitability.riskProfile}
                 </Text>
               </View>
             </View>
-
             <View style={styles.profileItem}>
-              <Text style={[styles.profileLabel, { color: theme.colors.textSecondary }]}>
+              <Text
+                style={[
+                  styles.profileLabel,
+                  { color: theme.colors.textSecondary },
+                ]}
+              >
                 Experiência
               </Text>
               <Text style={[styles.profileValue, { color: theme.colors.text }]}>
                 {profile.suitability.investmentExperience}
               </Text>
             </View>
-
             <View style={styles.profileItem}>
-              <Text style={[styles.profileLabel, { color: theme.colors.textSecondary }]}>
+              <Text
+                style={[
+                  styles.profileLabel,
+                  { color: theme.colors.textSecondary },
+                ]}
+              >
                 Horizonte Temporal
               </Text>
               <Text style={[styles.profileValue, { color: theme.colors.text }]}>
                 {profile.suitability.timeHorizon}
               </Text>
             </View>
-
             <View style={styles.profileItem}>
-              <Text style={[styles.profileLabel, { color: theme.colors.textSecondary }]}>
+              <Text
+                style={[
+                  styles.profileLabel,
+                  { color: theme.colors.textSecondary },
+                ]}
+              >
                 Renda Mensal
               </Text>
               <Text style={[styles.profileValue, { color: theme.colors.text }]}>
                 R$ {profile.suitability.monthlyIncome.toLocaleString('pt-BR')}
               </Text>
             </View>
-
             <View style={styles.profileItem}>
-              <Text style={[styles.profileLabel, { color: theme.colors.textSecondary }]}>
+              <Text
+                style={[
+                  styles.profileLabel,
+                  { color: theme.colors.textSecondary },
+                ]}
+              >
                 Investimentos Atuais
               </Text>
               <Text style={[styles.profileValue, { color: theme.colors.text }]}>
-                R$ {profile.suitability.currentInvestments.toLocaleString('pt-BR')}
+                R${' '}
+                {profile.suitability.currentInvestments.toLocaleString('pt-BR')}
               </Text>
             </View>
           </Card>
         )}
 
         {/* Goals */}
-        {profile?.goals && profile.goals.length > 0 && (
-          <Card style={styles.goalsCard}>
+        {profile?.goals?.map((goal) => (
+          <Card key={goal.id} style={styles.goalsCard}>
             <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>
               Objetivos de Investimento
             </Text>
-            
-            {profile.goals.map((goal) => (
-              <View key={goal.id} style={styles.goalItem}>
-                <View style={styles.goalHeader}>
-                  <Text style={[styles.goalName, { color: theme.colors.text }]}>
-                    {goal.name}
-                  </Text>
-                  <Text style={[styles.goalPriority, { 
-                    color: goal.priority === 'alta' ? theme.colors.error : theme.colors.warning 
-                  }]}>
-                    {goal.priority}
-                  </Text>
-                </View>
-                <Text style={[styles.goalAmount, { color: theme.colors.textSecondary }]}>
-                  Meta: R$ {goal.targetAmount.toLocaleString('pt-BR')}
+            <View style={styles.goalItem}>
+              <View style={styles.goalHeader}>
+                <Text style={[styles.goalName, { color: theme.colors.text }]}>
+                  {goal.name}
                 </Text>
-                <Text style={[styles.goalDate, { color: theme.colors.textSecondary }]}>
-                  Prazo: {new Date(goal.targetDate).toLocaleDateString('pt-BR')}
+                <Text
+                  style={[
+                    styles.goalPriority,
+                    {
+                      color:
+                        goal.priority === 'alta'
+                          ? theme.colors.error
+                          : theme.colors.warning,
+                    },
+                  ]}
+                >
+                  {goal.priority}
                 </Text>
               </View>
-            ))}
+              <Text
+                style={[
+                  styles.goalAmount,
+                  { color: theme.colors.textSecondary },
+                ]}
+              >
+                Meta: R$ {goal.targetAmount.toLocaleString('pt-BR')}
+              </Text>
+              <Text
+                style={[styles.goalDate, { color: theme.colors.textSecondary }]}
+              >
+                Prazo: {new Date(goal.targetDate).toLocaleDateString('pt-BR')}
+              </Text>
+            </View>
           </Card>
-        )}
+        ))}
 
         {/* Settings */}
         <Card style={styles.settingsCard}>
           <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>
             Configurações
           </Text>
-
           <View style={styles.settingItem}>
             <View style={styles.settingInfo}>
               {theme.isDark ? (
@@ -208,10 +262,12 @@ export default function ProfileScreen() {
             <Switch
               value={darkMode}
               onValueChange={setDarkMode}
-              trackColor={{ false: theme.colors.border, true: theme.colors.primary }}
+              trackColor={{
+                false: theme.colors.border,
+                true: theme.colors.primary,
+              }}
             />
           </View>
-
           <View style={styles.settingItem}>
             <View style={styles.settingInfo}>
               <Bell size={20} color={theme.colors.text} />
@@ -222,12 +278,15 @@ export default function ProfileScreen() {
             <Switch
               value={notifications}
               onValueChange={setNotifications}
-              trackColor={{ false: theme.colors.border, true: theme.colors.primary }}
+              trackColor={{
+                false: theme.colors.border,
+                true: theme.colors.primary,
+              }}
             />
           </View>
         </Card>
 
-        {/* Logout Button */}
+        {/* Logout */}
         <Button
           title="Sair da Conta"
           onPress={handleLogout}

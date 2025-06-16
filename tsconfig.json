@@ -4,12 +4,15 @@
     "strict": true,
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "skipLibCheck": true
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
+    "src/declarations/*.d.ts",
+    "src/types/*.d.ts",
     "expo-env.d.ts",
     "nativewind-env.d.ts"
   ]

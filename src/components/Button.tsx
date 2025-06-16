@@ -1,9 +1,11 @@
+// src/components/Button.tsx
 import React from 'react';
 import {
   TouchableOpacity,
   Text,
-  StyleSheet,
   ActivityIndicator,
+  StyleSheet,
+  StyleProp,
   ViewStyle,
   TextStyle,
 } from 'react-native';
@@ -16,8 +18,8 @@ interface ButtonProps {
   size?: 'small' | 'medium' | 'large';
   disabled?: boolean;
   loading?: boolean;
-  style?: ViewStyle;
-  textStyle?: TextStyle;
+  style?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -32,77 +34,60 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   const theme = useTheme();
 
-  const getButtonStyle = (): ViewStyle => {
-    const baseStyle: ViewStyle = {
-      borderRadius: 8,
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexDirection: 'row',
-    };
-
-    // Size
-    switch (size) {
-      case 'small':
-        baseStyle.paddingHorizontal = theme.spacing.md;
-        baseStyle.paddingVertical = theme.spacing.sm;
-        baseStyle.minHeight = 36;
-        break;
-      case 'large':
-        baseStyle.paddingHorizontal = theme.spacing.xl;
-        baseStyle.paddingVertical = theme.spacing.md;
-        baseStyle.minHeight = 56;
-        break;
-      default:
-        baseStyle.paddingHorizontal = theme.spacing.lg;
-        baseStyle.paddingVertical = theme.spacing.md;
-        baseStyle.minHeight = 48;
-    }
-
-    // Variant
-    switch (variant) {
-      case 'secondary':
-        baseStyle.backgroundColor = theme.colors.secondary;
-        break;
-      case 'outline':
-        baseStyle.backgroundColor = 'transparent';
-        baseStyle.borderWidth = 2;
-        baseStyle.borderColor = theme.colors.primary;
-        break;
-      default:
-        baseStyle.backgroundColor = theme.colors.primary;
-    }
-
-    // Disabled state
-    if (disabled) {
-      baseStyle.opacity = 0.6;
-    }
-
-    return baseStyle;
+  // Constroi estilo base do botão
+  const baseStyle: ViewStyle = {
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    opacity: disabled || loading ? 0.6 : 1,
   };
 
-  const getTextStyle = (): TextStyle => {
-    const baseStyle: TextStyle = {
-      ...theme.typography.button,
-      textAlign: 'center',
-    };
+  // Ajusta padding e altura conforme tamanho
+  switch (size) {
+    case 'small':
+      baseStyle.paddingHorizontal = theme.spacing.md;
+      baseStyle.paddingVertical = theme.spacing.sm;
+      baseStyle.minHeight = 36;
+      break;
+    case 'large':
+      baseStyle.paddingHorizontal = theme.spacing.xl;
+      baseStyle.paddingVertical = theme.spacing.md;
+      baseStyle.minHeight = 56;
+      break;
+    default:
+      baseStyle.paddingHorizontal = theme.spacing.lg;
+      baseStyle.paddingVertical = theme.spacing.md;
+      baseStyle.minHeight = 48;
+  }
 
-    switch (variant) {
-      case 'secondary':
-        baseStyle.color = theme.colors.text;
-        break;
-      case 'outline':
-        baseStyle.color = theme.colors.primary;
-        break;
-      default:
-        baseStyle.color = '#FFFFFF';
-    }
+  // Ajusta cores conforme variante
+  switch (variant) {
+    case 'secondary':
+      baseStyle.backgroundColor = theme.colors.secondary;
+      break;
+    case 'outline':
+      baseStyle.backgroundColor = 'transparent';
+      baseStyle.borderWidth = 2;
+      baseStyle.borderColor = theme.colors.primary;
+      break;
+    default:
+      baseStyle.backgroundColor = theme.colors.primary;
+  }
 
-    return baseStyle;
+  // Texto
+  const textBase: TextStyle = {
+    ...theme.typography.button,
+    textAlign: 'center',
+    color: variant === 'outline' ? theme.colors.primary : '#FFFFFF',
   };
+  if (variant === 'secondary') {
+    textBase.color = theme.colors.text;
+  }
 
   return (
     <TouchableOpacity
-      style={[getButtonStyle(), style]}
+      style={[baseStyle, style]}
       onPress={onPress}
       disabled={disabled || loading}
       activeOpacity={0.8}
@@ -113,7 +98,7 @@ export const Button: React.FC<ButtonProps> = ({
           color={variant === 'outline' ? theme.colors.primary : '#FFFFFF'}
         />
       ) : (
-        <Text style={[getTextStyle(), textStyle]}>{title}</Text>
+        <Text style={[textBase, textStyle]}>{title}</Text>
       )}
     </TouchableOpacity>
   );
