@@ -1,0 +1,30 @@
+[
+  {
+    "id": "profile-1",
+    "userId": "user-1",
+    "suitability": {
+      "riskProfile": "moderado",
+      "investmentExperience": "intermediário",
+      "timeHorizon": "5-10 anos",
+      "investmentGoals": ["aposentadoria", "reserva_emergencia"],
+      "monthlyIncome": 8000,
+      "currentInvestments": 50000
+    },
+    "goals": [
+      {
+        "id": "goal-1",
+        "name": "Aposentadoria",
+        "targetAmount": 1000000,
+        "targetDate": "2045-12-31",
+        "priority": "alta"
+      },
+      {
+        "id": "goal-2",
+        "name": "Reserva de Emergência",
+        "targetAmount": 48000,
+        "targetDate": "2025-12-31",
+        "priority": "alta"
+      }
+    ]
+  }
+]

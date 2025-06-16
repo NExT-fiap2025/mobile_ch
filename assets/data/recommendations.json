@@ -1,0 +1,95 @@
+[
+  {
+    "id": "rec-1",
+    "userId": "user-1",
+    "portfolios": [
+      {
+        "id": "portfolio-1",
+        "name": "Portfólio Conservador",
+        "riskLevel": "baixo",
+        "expectedReturn": "8-12%",
+        "allocation": {
+          "rendaFixa": 70,
+          "acoes": 20,
+          "fundosImobiliarios": 10
+        },
+        "xaiExplanation": {
+          "reasoning": "Com base no seu perfil moderado e objetivo de preservação de capital, este portfólio prioriza estabilidade e renda previsível.",
+          "factors": [
+            "Perfil de risco moderado identificado",
+            "Horizonte de investimento de longo prazo",
+            "Necessidade de preservação de capital",
+            "Busca por renda regular"
+          ],
+          "confidence": 0.85
+        }
+      },
+      {
+        "id": "portfolio-2",
+        "name": "Portfólio Balanceado",
+        "riskLevel": "médio",
+        "expectedReturn": "10-15%",
+        "allocation": {
+          "rendaFixa": 50,
+          "acoes": 35,
+          "fundosImobiliarios": 10,
+          "internacional": 5
+        },
+        "xaiExplanation": {
+          "reasoning": "Equilibra crescimento e estabilidade, adequado para seus objetivos de médio e longo prazo.",
+          "factors": [
+            "Experiência intermediária em investimentos",
+            "Diversificação de objetivos",
+            "Capacidade de assumir riscos moderados",
+            "Horizonte temporal favorável"
+          ],
+          "confidence": 0.92
+        }
+      },
+      {
+        "id": "portfolio-3",
+        "name": "Portfólio Crescimento",
+        "riskLevel": "médio-alto",
+        "expectedReturn": "12-18%",
+        "allocation": {
+          "rendaFixa": 30,
+          "acoes": 50,
+          "fundosImobiliarios": 10,
+          "internacional": 10
+        },
+        "xaiExplanation": {
+          "reasoning": "Foca no crescimento patrimonial de longo prazo, aproveitando seu horizonte temporal extenso.",
+          "factors": [
+            "Horizonte de investimento longo (>10 anos)",
+            "Capacidade de renda estável",
+            "Possibilidade de assumir mais volatilidade",
+            "Objetivo de aposentadoria ambicioso"
+          ],
+          "confidence": 0.78
+        }
+      },
+      {
+        "id": "portfolio-4",
+        "name": "Portfólio Agressivo",
+        "riskLevel": "alto",
+        "expectedReturn": "15-25%",
+        "allocation": {
+          "rendaFixa": 20,
+          "acoes": 60,
+          "fundosImobiliarios": 10,
+          "internacional": 10
+        },
+        "xaiExplanation": {
+          "reasoning": "Máximo potencial de crescimento, recomendado apenas se você puder aceitar alta volatilidade.",
+          "factors": [
+            "Patrimônio já estabelecido",
+            "Renda mensal estável",
+            "Possibilidade de assumir perdas temporárias",
+            "Foco em crescimento máximo"
+          ],
+          "confidence": 0.65
+        }
+      }
+    ]
+  }
+]

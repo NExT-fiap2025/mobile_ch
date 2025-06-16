@@ -1,0 +1,55 @@
+[
+  {
+    "id": "user-portfolio-1",
+    "userId": "user-1",
+    "selectedPortfolioId": "portfolio-2",
+    "totalValue": 52500,
+    "performance": {
+      "daily": 1.2,
+      "monthly": 2.8,
+      "yearly": 12.5
+    },
+    "holdings": [
+      {
+        "id": "holding-1",
+        "name": "Tesouro IPCA+ 2029",
+        "type": "rendaFixa",
+        "value": 26250,
+        "percentage": 50,
+        "performance": 0.8
+      },
+      {
+        "id": "holding-2",
+        "name": "PETR4",
+        "type": "acoes",
+        "value": 9187.5,
+        "percentage": 17.5,
+        "performance": 2.3
+      },
+      {
+        "id": "holding-3",
+        "name": "VALE3",
+        "type": "acoes",
+        "value": 9187.5,
+        "percentage": 17.5,
+        "performance": 1.8
+      },
+      {
+        "id": "holding-4",
+        "name": "HGLG11",
+        "type": "fundosImobiliarios",
+        "value": 5250,
+        "percentage": 10,
+        "performance": 0.9
+      },
+      {
+        "id": "holding-5",
+        "name": "IVVB11",
+        "type": "internacional",
+        "value": 2625,
+        "percentage": 5,
+        "performance": 1.5
+      }
+    ]
+  }
+]

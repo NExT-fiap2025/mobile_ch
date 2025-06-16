@@ -1,0 +1,16 @@
+[
+  {
+    "id": "user-1",
+    "email": "demo@xp.com",
+    "password": "password123",
+    "name": "João Silva",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.demo-token"
+  },
+  {
+    "id": "user-2",
+    "email": "maria@xp.com",
+    "password": "password123",
+    "name": "Maria Santos",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.demo-token-2"
+  }
+]

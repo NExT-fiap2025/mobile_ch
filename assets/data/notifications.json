@@ -1,0 +1,29 @@
+[
+  {
+    "id": "notif-1",
+    "userId": "user-1",
+    "title": "Oportunidade de Investimento",
+    "message": "Nova emissão do Tesouro IPCA+ com rentabilidade atrativa disponível.",
+    "type": "investment",
+    "read": false,
+    "createdAt": "2024-12-26T10:00:00Z"
+  },
+  {
+    "id": "notif-2",
+    "userId": "user-1",
+    "title": "Parabéns! Novo Badge Conquistado",
+    "message": "Você ganhou o badge 'Diversificador' por investir em diferentes classes de ativos!",
+    "type": "gamification",
+    "read": false,
+    "createdAt": "2024-12-25T16:30:00Z"
+  },
+  {
+    "id": "notif-3",
+    "userId": "user-1",
+    "title": "Relatório Mensal Disponível",
+    "message": "Seu relatório de performance de dezembro já está disponível.",
+    "type": "report",
+    "read": true,
+    "createdAt": "2024-12-24T08:00:00Z"
+  }
+]

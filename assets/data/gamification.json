@@ -1,0 +1,50 @@
+[
+  {
+    "id": "gamification-1",
+    "userId": "user-1",
+    "level": 3,
+    "totalPoints": 2850,
+    "pointsToNextLevel": 1150,
+    "badges": [
+      {
+        "id": "badge-1",
+        "name": "Primeiro Investimento",
+        "description": "Realizou seu primeiro investimento",
+        "icon": "🏆",
+        "earnedAt": "2024-01-15T10:00:00Z"
+      },
+      {
+        "id": "badge-2",
+        "name": "Diversificador",
+        "description": "Investiu em 3 classes de ativos diferentes",
+        "icon": "🎯",
+        "earnedAt": "2024-02-20T14:30:00Z"
+      },
+      {
+        "id": "badge-3",
+        "name": "Consistente",
+        "description": "Investiu por 3 meses consecutivos",
+        "icon": "📈",
+        "earnedAt": "2024-03-15T09:15:00Z"
+      }
+    ],
+    "achievements": [
+      {
+        "id": "achievement-1",
+        "name": "Meta de Reserva",
+        "progress": 65,
+        "target": 100,
+        "description": "Complete sua reserva de emergência",
+        "reward": 500
+      },
+      {
+        "id": "achievement-2",
+        "name": "Investidor Ativo",
+        "progress": 8,
+        "target": 12,
+        "description": "Realize 12 investimentos este ano",
+        "reward": 300
+      }
+    ]
+  }
+]
