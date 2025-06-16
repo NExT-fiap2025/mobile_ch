@@ -7,6 +7,7 @@ import {
   FlatList,
   TouchableOpacity,
   Dimensions,
+  Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -15,8 +16,11 @@ import DataService, { Portfolio } from '@/src/services/DataService';
 import { Card } from '@/src/components/Card';
 import { LoadingSpinner } from '@/src/components/LoadingSpinner';
 import { useTheme } from '@/src/hooks/useTheme';
+import * as IconWeb from 'lucide-react';
+import * as IconNative from 'lucide-react-native';
 
-const { width } = Dimensions.get('window');
+const ArrowLeft =
+  Platform.OS === 'web' ? IconWeb.ArrowLeft : IconNative.ArrowLeft;
 
 export default function PortfolioListScreen() {
   const router = useRouter();
@@ -45,6 +49,20 @@ export default function PortfolioListScreen() {
     <SafeAreaView
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
+      {/* Header */}
+      <View style={styles.header}>
+        <TouchableOpacity
+          onPress={() => router.push('/')}
+          style={styles.iconButton}
+        >
+          <ArrowLeft size={24} color={theme.colors.text} />
+        </TouchableOpacity>
+        <Text style={[styles.headerTitle, { color: theme.colors.text }]}>
+          Meus Portfólios
+        </Text>
+        <View style={styles.iconButton} />
+      </View>
+
       <FlatList
         data={recs}
         keyExtractor={(item) => item.id}
@@ -67,18 +85,10 @@ export default function PortfolioListScreen() {
               </Text>
             </View>
             <TouchableOpacity
-              style={[
-                styles.button,
-                {
-                  backgroundColor: theme.colors.primary,
-                  alignSelf: 'stretch',
-                  width: width - 32,
-                },
-              ]}
+              style={[styles.button, { backgroundColor: theme.colors.primary }]}
               onPress={async () => {
                 if (!user) return;
                 await DataService.acceptPortfolio(user.id, item.id);
-                // navegação string para garantir id no web
                 router.push(`/portfolio/${user.id}`);
               }}
             >
@@ -94,13 +104,31 @@ export default function PortfolioListScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  list: { padding: 16 },
+  container: {
+    flex: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 16,
+  },
+  iconButton: {
+    width: 32,
+    alignItems: 'center',
+  },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  list: {
+    padding: 16,
+  },
   card: {
     marginBottom: 12,
     padding: 16,
     borderRadius: 8,
-    width: width - 32,
+    width: '80%', // 80% da largura da tela
     alignSelf: 'center',
     shadowColor: '#000',
     shadowOpacity: 0.1,
@@ -108,14 +136,28 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
-  cardContent: { marginBottom: 16 },
-  name: { fontSize: 18, fontWeight: '600', marginBottom: 6 },
-  detail: { fontSize: 14, marginBottom: 4 },
+  cardContent: {
+    marginBottom: 16,
+  },
+  name: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 6,
+  },
+  detail: {
+    fontSize: 14,
+    marginBottom: 4,
+  },
   button: {
+    width: '100%',
+    alignSelf: 'center',
     paddingVertical: 12,
     borderRadius: 4,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  buttonText: { fontSize: 14, fontWeight: '500' },
+  buttonText: {
+    fontSize: 14,
+    fontWeight: '500',
+  },
 });

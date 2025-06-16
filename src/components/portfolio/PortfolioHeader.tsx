@@ -14,6 +14,7 @@ import type { Router } from 'expo-router';
 
 const ArrowLeft =
   Platform.OS === 'web' ? IconWeb.ArrowLeft : IconNative.ArrowLeft;
+const HomeIcon = Platform.OS === 'web' ? IconWeb.Home : IconNative.Home;
 
 interface Props {
   router: Router;
@@ -23,11 +24,20 @@ export default function PortfolioHeader({ router }: Props) {
   const { colors } = useTheme();
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+      {/* Voltar para a tela anterior */}
+      <TouchableOpacity onPress={() => router.back()} style={styles.iconButton}>
         <ArrowLeft size={24} color={colors.text} />
       </TouchableOpacity>
+
       <Text style={[styles.title, { color: colors.text }]}>Meu Portfólio</Text>
-      <View style={styles.spacer} />
+
+      {/* Ir direto para o dashboard */}
+      <TouchableOpacity
+        onPress={() => router.push('/')}
+        style={styles.iconButton}
+      >
+        <HomeIcon size={24} color={colors.text} />
+      </TouchableOpacity>
     </View>
   );
 }
@@ -39,14 +49,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 16,
   },
-  backButton: {
+  iconButton: {
     padding: 4,
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-  },
-  spacer: {
-    width: 32,
   },
 });
