@@ -9,6 +9,10 @@
 
 A React Native mobile application built with Expo and TypeScript that provides personalized investment portfolio recommendations using AI-powered explanations.
 
+# Figma
+
+**https://www.figma.com/design/brEuy7mC8xnLisR0FwdtCU/Untitled?node-id=0-1&t=KSSFPW6Tk6rSNDnn-1**
+
 ## Features
 
 - **Authentication**: Secure login and signup with AsyncStorage persistence
