@@ -1,3 +1,9 @@
+Eduardo Gomes Pinho Junior - 97919
+Gustavo Ferreira Lopes - 98887
+Pedro Henrique Salvitti - 88166
+Enzo de Oliveira Cunha - 550985
+
+
 # XP Assessor Virtual
 
 A React Native mobile application built with Expo and TypeScript that provides personalized investment portfolio recommendations using AI-powered explanations.
